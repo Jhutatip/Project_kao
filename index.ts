@@ -1,17 +1,111 @@
-import express from "express";
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const port = 3000;
 
-const app: express.Application = express();
+import { MongoClient } from "mongodb";
+import { index } from "./src/page";
 
-import {index, ticket} from "./src/page"
+app.use(cors());
+app.use(express.json());
 
-app.get("/", (req: express.Request, res: express.Response) => {
-  res.send(index());
+app.get("/", (_req: any, res: { send: (arg0: string) => void }) => {
+  res.send("Ticket Booking System for Chiang Mai Zoo");
+});
+app.listen(port, () => {
+  console.log('Express app listening at  http://localhost:3000');
 });
 
-app.get('/ticket', (req: express.Request, res: express.Response) => {
-  res.send(ticket());
+const { MongoClient0 } = require("mongodb");
+const uri = "mongodb://root:katsuLiminal@nas.suphakit.net:27017/?authSource=admin";
+
+app.post(
+  "/index/create",
+  async (
+    req: { body: any },
+    res: {
+      status: (arg0: number) => {
+        (): any;
+        new (): any;
+        send: {
+          (arg0: { status: string; message: string; user: any }): void;
+          new (): any;
+        };
+      };
+    }
+  ) => {
+    const user = req.body;
+    const client = new MongoClient(uri);
+    await client.connect();
+    await client
+      .db("cmZoom")
+      .collection("index")
+      .insertOne({
+        id: user.id,
+        moviename: user.moviename,
+        description: user.description,
+        image: user.image,
+      });
+
+    await client.close();
+    res.status(200).send({
+      status: "ok",
+      message: "Create Finish",
+      user: user,
+    });
+  }
+);
+app.get(
+  "index",
+  async (
+    req: { params: { id: string } },
+    res: {
+      status: (arg0: number) => {
+        (): any;
+        new (): any;
+        send: { (arg0: any): void; new (): any };
+      };
+    }
+  ) => {
+    const id = req.params.id;
+    const client = new MongoClient(uri);
+    await client.connect();
+    const user = await client
+      .db("cmZooo")
+      .collection("index")
+      .find({})
+      .toArray();
+    await client.close();
+    res.status(200).send(user);
+  }
+);
+app.put('/movie/update', async(req: { body: any; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { status: string; message: string; user: any; }): void; new(): any; }; }; }) => {
+  const user = req.body;
+  const id = user.id;
+  const client = new MongoClient(uri);
+  await client.connect();
+  await client.db("cmZoo")
+  .collection("index").updateOne({'id': id}, {"$set": {
+    id: user.id,
+    indexname: user.indexename,
+    description: user.description,
+    image: user.image,
+  }});
+  await client.close();
+  res.status(200).send({
+    "status": "ok",
+    "message": "Updated Finish",
+    "user": user
+  });
 })
-
-app.listen(3000, () => {
-  console.log("Server run on http://localhost:3000");
-});
+app.delete('/movie/delete', async(req: { body: { id: string; }; }, res: { status: (arg0: number) => { (): any; new(): any; send: { (arg0: { status: string; message: string; }): void; new(): any; }; }; }) => {
+  const id = req.body.id;
+  const client = new MongoClient(uri);
+  await client.connect();
+  await client.db('cmZooo').collection('index').deleteOne({'id': id});
+  await client.close();
+  res.status(200).send({
+    "status": "ok",
+    "message": "Deleted Finish"
+  });
+})
