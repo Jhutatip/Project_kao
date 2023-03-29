@@ -1,4 +1,4 @@
-![Diagram](README_src/Kao.drawio.svg)
+![Diagram](README_src/ER.drawio.svg)
 
 ผู้ใช้งานทั่วไป
   1. สามารถดูข้อมูลข่าวสารเเละการประกาศของสวนสัตว์เชียงใหม่ได้ 
