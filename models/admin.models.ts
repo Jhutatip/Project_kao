@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+interface admin extends Document {
+    username: string;
+    password: string;
+    email: string;
+  }
+
 const userSchema = new mongoose.Schema({
     ad_name: {type: String,default: null},
     ad_lastname: {type: String,default: null},

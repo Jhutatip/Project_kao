@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import Order from '../models/order.models';
 
+
 // GET /orders - ดึงรายการสั่งซื้อทั้งหมด
 export const getAllOrders = async (req: Request, res: Response) => {
   try {
     const orders = await Order.find();
     res.status(200).json({ orders });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
@@ -21,7 +22,7 @@ export const getOrderById = async (req: Request, res: Response) => {
       return;
     }
     res.status(200).json({ order });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
@@ -32,7 +33,7 @@ export const createOrder = async (req: Request, res: Response) => {
     const { customerId, items } = req.body;
     const order = await Order.create({ customerId, items });
     res.status(201).json({ order });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 };
@@ -48,7 +49,7 @@ export const updateOrder = async (req: Request, res: Response) => {
       { new: true }
     );
     res.status(200).json({ order: updatedOrder });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({ error: error.message });
   }
 };
@@ -59,7 +60,7 @@ export const deleteOrder = async (req: Request, res: Response) => {
     const { id } = req.params;
     await Order.findByIdAndDelete(id);
     res.status(204).json({});
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({ error: error.message });
   }
 };
