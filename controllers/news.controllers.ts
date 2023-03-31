@@ -16,7 +16,7 @@ export const createNews = async (req: Request, res: Response) => {
 // สร้าง controller สำหรับการดึงข้อมูลข่าวทั้งหมด
 export const getAllNews = async (req: Request, res: Response) => {
   try {
-    const news = await News.find();
+    const news = await NewsModel.find();
     res.json(news);
   } catch (error) {
     console.error(error);
@@ -28,7 +28,7 @@ export const getAllNews = async (req: Request, res: Response) => {
 export const getNewsById = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const news = await News.findById(id);
+    const news = await NewsModel.findById(id);
     if (news) {
       res.json(news);
     } else {
@@ -45,7 +45,7 @@ export const updateNews = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const { title, content } = req.body;
-    const news = await News.findByIdAndUpdate(id, { title, content }, { new: true });
+    const news = await NewsModel.findByIdAndUpdate(id, { title, content }, { new: true });
     if (news) {
       res.json(news);
     } else {
@@ -61,7 +61,7 @@ export const updateNews = async (req: Request, res: Response) => {
 export const deleteNews = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const news = await News.findByIdAndDelete(id);
+    const news = await NewsModel.findByIdAndDelete(id);
     if (news) {
       res.json({ message: 'News deleted successfully' });
     } else {

@@ -11,16 +11,16 @@ const bodyParser = require('body-parser')
 export const regis = async(req:Request,res:Response)=>{
     try {
         
-        const { member_name, member_lastname, member_email, member_password,member_tel,member_id } = req.body;
+        const { name, lastname, email, password,tel,id } = req.body;
     
         
-        if (!(member_email && member_password && member_name && member_lastname && member_tel &&  member_id )) {
+        if (!(email && password && name && lastname && tel &&  id )) {
           res.status(400).send("All input is required");
         }
     
       
        
-        const oldUser = await User.findOne({ member_email });
+        const oldUser = await User.findOne({ email });
     
         if (oldUser) {
           return res.status(409).send("User Already Exist. Please Login");
@@ -28,19 +28,19 @@ export const regis = async(req:Request,res:Response)=>{
     
         
         
-       const encryptedPassword = await bcrypt.hash(member_password, 10);
+       const encryptedPassword = await bcrypt.hash(password, 10);
     
         
         const user = await User.create({
-            member_name,
-            member_lastname,
-            member_email: member_email.toLowerCase(), 
+            name,
+            lastname,
+            email: email.toLowerCase(), 
           password: encryptedPassword,
         });
     
         
         const token = jwt.sign(
-          { user_id: user._id, member_email },
+          { user_id: user._id, email },
             "process.env.TOKEN_KEY",
           {
             expiresIn: "2h",
@@ -69,7 +69,7 @@ export const login = async(req:Request, res:Response)=>{
         
         const user = await User.findOne({ email });
 
-        if(user && (await bcrypt.compare(password,user.member_password))){
+        if(user && (await bcrypt.compare(password,user.password))){
             
             const token = jwt.sign(
                 {user_id: user._id,email},
