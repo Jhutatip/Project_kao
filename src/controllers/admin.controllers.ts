@@ -1,49 +1,49 @@
 import { Request, Response } from 'express';
-import Animal from '../models/admin.models';
+import AdminModels from '../models/admin.models';
 
 
 // GET /admin/animals - ดึงข้อมูลสัตว์ทั้งหมดสำหรับ Admin
-export const getAllAnimals = async (req: Request, res: Response) => {
+export const getAlladmin = async (req: Request, res: Response) => {
     try {
-        const animals = await Animal.find();
-        res.status(200).json({ animals });
+        const admin = await AdminModels.find();
+        res.status(200).json({ admin});
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     }
 };
 
 // POST /admin/animals - สร้างสัตว์ใหม่สำหรับ Admin
-export const createAnimal = async (req: Request, res: Response) => {
+export const createadmin = async (req: Request, res: Response) => {
     try {
         const { name, species, age } = req.body;
-        const animal = await Animal.create({ name, species, age });
-        res.status(201).json({ animal });
+        const admin = await AdminModels.create({ name, species, age });
+        res.status(201).json({ admin });
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     }
 };
 
 // PUT /admin/animals/:id - อัปเดตข้อมูลสัตว์สำหรับ Admin
-export const updateAnimal = async (req: Request, res: Response) => {
+export const updateadmin = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const { name, species, age } = req.body;
-        const updatedAnimal = await Animal.findByIdAndUpdate(
+        const updatedadmin = await AdminModels.findByIdAndUpdate(
             id,
             { name, species, age },
             { new: true }
         );
-        res.status(200).json({ animal: updatedAnimal });
+        res.status(200).json({ animal: updatedadmin });
     } catch (err: any) {
         res.status(500).json({ error: err.message });
     }
 };
 
 // DELETE /admin/animals/:id - ลบข้อมูลสัตว์สำหรับ Admin
-export const deleteAnimal = async (req: Request, res: Response) => {
+export const deleteadmin = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        await Animal.findByIdAndDelete(id);
+        await AdminModels.findByIdAndDelete(id);
         res.status(204).json({});
     } catch (err: any) {
         res.status(500).json({ error: err.message });
