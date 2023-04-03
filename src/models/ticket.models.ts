@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const ticketSchema = new mongoose.Schema({
-    ticket_id: {type: String,default: null},
-    ticket_type: {type: String,default: null},
-    ticket_price: {type: String},
+    id: {type: String,default: null},
+    type: {type: String,default: null},
+    price: {type: String},
     token: {type: String},
 });
 

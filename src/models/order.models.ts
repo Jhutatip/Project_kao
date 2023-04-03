@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-    order_id: {type: String,default: null},
-    order_data: {type: String,default: null},
-    status_pay: {type: String,default: null},   
+    id: {type: String,default: null},
+    data: {type: String,default: null},
+    pay: {type: String,default: null},   
     token: {type: String},
 });
 
